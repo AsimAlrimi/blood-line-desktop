@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Google Map</title>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=Your-API-key"></script>
+    <script>
+      let map;
+      let marker;
+
+      function initMap() {
+        const initialLocation = { lat: 31.9539, lng: 35.9106 };
+
+        // Initialize the map
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 11,
+          center: initialLocation,
+        });
+
+        // Add a click listener for pinning a location
+        map.addListener("click", (event) => {
+          if (marker) {
+            marker.setMap(null);
+          }
+
+          marker = new google.maps.Marker({
+            position: event.latLng,
+            map: map,
+          });
+
+          const lat = event.latLng.lat();
+          const lng = event.latLng.lng();
+
+          // Save latitude and longitude to localStorage
+          localStorage.setItem("latitude", lat);
+          localStorage.setItem("longitude", lng);
+        });
+      }
+    </script>
+  </head>
+  <body onload="initMap()">
+    <div id="map" style="height: 100vh; width: 100%;"></div>
+  </body>
+</html>
